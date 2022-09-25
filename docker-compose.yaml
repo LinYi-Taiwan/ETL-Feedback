@@ -1,0 +1,12 @@
+# The version of docker compose we want to use
+version: "3.8"
+
+# 可以是指定多個 services
+services:
+    app:
+        build: .
+        container_name: ETL_interview
+        ports:
+            - "8080:8080"
+        volumes:
+            - "./py:/app"
