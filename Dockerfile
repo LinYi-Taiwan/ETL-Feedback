@@ -1,14 +1,34 @@
-# 以Python3執行環境作為Docker Image基礎
-FROM python:3
-# 設定工作目錄為 /app
+FROM python:3.7.2-stretch
+
+# Set the working directory to /app
 WORKDIR /app
-# 複製目前目錄下的內容，放進 Docker 容器中的 /app
+
+# Copy the current directory contents into the container at /app 
+# ADD：將檔案加到 images 內
 ADD . /app
-# 安裝 requirements.txt 中所列的必要套件
+
+# Install the dependencies
+# build 時使用，會執行此命令
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-# 讓 80 連接埠可以從 Docker 容器外部存取
-EXPOSE 8080
-# 定義環境變數
-ENV NAME World
-# 當 Docker 容器啟動時，自動執行 app.py
-CMD ["python", "./app.py"]
+
+# run the command to start uWSGI
+# run container 時要執行的命令
+
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+
+
+# ENV：環境變數設定
+
+# 以下為 ok 的 ubuntu config
+# FROM ubuntu
+
+# RUN apt update
+# RUN apt install python3-pip -y
+# RUN pip3 install Flask
+
+# WORKDIR /app
+
+# COPY . .
+
+# CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]

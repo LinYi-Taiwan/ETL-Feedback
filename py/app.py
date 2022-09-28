@@ -1,1 +1,0 @@
-print('測試 python 運行')
